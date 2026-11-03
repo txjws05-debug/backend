@@ -21,6 +21,10 @@
         <java.version>17</java.version>
         <mybatis-plus.version>3.5.6</mybatis-plus.version>
         <jjwt.version>0.12.5</jjwt.version>
+        <!-- Spring Boot 3.2.5 管理的 Lombok 1.18.32 不支持 JDK 21+ 的 class 文件格式，
+             在 JDK 25 上注解处理器直接失效（编译报 "cannot find symbol: setCode"）。
+             1.18.40 起才支持 JDK 21+，1.18.48 支持 JDK 25。 -->
+        <lombok.version>1.18.48</lombok.version>
     </properties>
 
     <dependencies>
@@ -76,6 +80,22 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <!-- JDK 23 起 javac 默认不再从 classpath 自动发现注解处理器，
+                         必须显式声明 processorpath，否则 Lombok 静默失效
+                         （表现为 "cannot find symbol: setCode"）。 -->
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

@@ -279,6 +279,23 @@ public ArticleVO getPublicDetail(Long id) {
     return vo;
 }
 
+/**
+ * 后台文章详情。
+ *
+ * 与前台详情的区别：
+ *   - 不校验 status：草稿在后台也要能看
+ *   - 不加浏览量：后台预览不该污染公开计数
+ *   - 不走前台缓存：草稿内容不该进公共缓存（前台缓存键是 blog:article:{id}，
+ *     后台看到的内容和前台不是一回事，共用缓存会导致草稿泄漏到前台）
+ */
+public ArticleVO getAdminDetail(Long id) {
+    Article article = articleMapper.selectById(id);
+    if (article == null) {
+        throw new BusinessException("文章不存在");
+    }
+    return toVO(article, true);
+}
+
    @Transactional
 public Long create(ArticleRequest request, Long authorId) {
     Article article = new Article();

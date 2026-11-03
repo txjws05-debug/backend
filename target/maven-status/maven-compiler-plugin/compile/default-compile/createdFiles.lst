@@ -31,6 +31,7 @@ com\blog\dto\CommentVO.class
 com\blog\dto\ArticleRequest.class
 com\blog\dto\LoginRequest.class
 com\blog\entity\Comment.class
+com\blog\config\RedisConfig.class
 com\blog\dto\TagVO.class
 com\blog\service\CategoryService.class
 com\blog\entity\Article.class
