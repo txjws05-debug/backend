@@ -55,7 +55,6 @@ echo "=== 3/4 传输到服务器（git bundle）==="
 # 用 bundle 传对象，比 scp 传文件更省、且能保证两端历史一致
 git bundle create /tmp/backend.bundle --all
 scp -F "$SSH_CFG" /tmp/backend.bundle "$HOST:/tmp/backend.bundle"
-scp -F "$SSH_CFG" "$LOCAL_DIR/.gitignore" "$HOST:$REMOTE_DIR/.gitignore" 2>/dev/null || true
 
 echo "=== 4/4 服务器解包并推送 ==="
 ssh -F "$SSH_CFG" "$HOST" "cd $REMOTE_DIR && \
