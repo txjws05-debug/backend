@@ -59,8 +59,8 @@ scp -F "$SSH_CFG" "$LOCAL_DIR/.gitignore" "$HOST:$REMOTE_DIR/.gitignore" 2>/dev/
 
 echo "=== 4/4 服务器解包并推送 ==="
 ssh -F "$SSH_CFG" "$HOST" "cd $REMOTE_DIR && \
-  git fetch /tmp/backend.bundle 'refs/heads/*:refs/heads/*' && \
-  git checkout main && \
+  git fetch /tmp/backend.bundle 'refs/heads/*:refs/remotes/bundle/*' && \
+  git checkout -B main refs/remotes/bundle/main && \
   git status --short && \
   git log --oneline -1 && \
   git push origin main && \
